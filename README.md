@@ -1,5 +1,7 @@
 ## Cpp Wordle
 
+![GitHub repo size](https://img.shields.io/github/repo-size/RungeCC/wordle)
+
 本项目使用 cpp 实现了著名的游戏 wordle，他的规则可以参见 [wiki](https://en.wikipedia.org/wiki/Wordle)。
 
 ### 编译和运行
@@ -20,26 +22,28 @@
 
 在项目根目录下运行：
 
-```shell
+```sh
 cmake -S . -B build
+# 可选：使用 ninja 并启动 debug 编译
+# cmake -S . -B build -DCMAKE_BUILD_TYPE=DEBUG -DRunge_Debug=On -G Ninja
 ```
 
 `cmake` 将完成生成器的配置工作，在 `linux` 下默认是 `GNU Makefile`。
 
-```shell
+```sh
 cmake --build build
 ```
 
 在指定目录中编译项目，默认编译全部目标。或者：
 
-```shell
+```sh
 cd build
 make
 ```
 
 然后项目结构：
 
-```shell
+```sh
 ./build
   - ... autogens | cmakefiles | misc | src
   - bin/
@@ -58,14 +62,14 @@ make
 
 #### 已废弃或未实现结构
 
-- `exceptions`，在 `src/exceptions`
-- `guards`，在 `src/guards`
-- `legacy`，在 `src/legacy`
-- `protocols`，在 `src/protocals`
+- [`exceptions`](src/exceptions)
+- [`guards`](src/guards)
+- [`legacy`](src/legacy)
+- [`protocols`](src/protocals)
 
 #### 工具
 
-在 `src/utilities`，提供了通用的工具，包括：
+[这里](src/utilities)，提供了通用的工具，包括：
 
 - `colored_cli`，命令行颜色支持；
 - `macros`，宏自动代码生成支持；
@@ -76,7 +80,7 @@ make
 
 #### 概念
 
-在 `src/concepts` 下面定义了 Wordle 游戏必须的概念，例如：
+[下面](src/concepts)定义了 Wordle 游戏必须的概念，例如：
 
 - 什么是一个**Wordle** `Runge::Concepts::is_wordle`；
 - 什么是一个**受比较 Wordle** `Runge::Concepts::is_compared_wordle`；
@@ -91,7 +95,7 @@ make
 
 #### 接口
 
-在 `src/interfaces` 下面定义了 GUIWordle 游戏必须的接口（这是因为 Qt GUI 编程习惯这种范式），例如：
+[下面](src/interfaces)定义了 GUIWordle 游戏必须的接口（这是因为 Qt GUI 编程习惯这种范式），例如：
 
 - **单独游戏控件接口** `IGameWidget`，指明某个 `widget` 可以嵌入**游戏框架**。
 
@@ -104,12 +108,12 @@ make
 架构：
   - **游戏框架**，负责运行任何游戏，处理指令，是最高的抽象层，他并不关心游戏实现为什么，只要实现了对应的**单独游戏**的约束。
     - 特别的，**单纯游戏框架**，仅仅容纳一个**单独游戏**的架构。
-    - 本项目只有**单纯游戏框架**，位于 `src/game_frameworks`；
+    - 本项目只有**单纯游戏框架**，位于[这里](src/game_frameworks)；
   - **单独游戏**，通常不是一个自立的对象，但是它封装了游戏的全部实现，它的对象可以传入**游戏框架**。
-    - 本项目包含 QtCLI **单独游戏模板**和 QtGUI 的基本 Wordle 单独游戏，位于 `src/single_games`。
-  - 中间层，包括**指令**(`src/tools/commands.hpp`)和**游戏状态标记**(`src/tools/marks.hpp`)，通过他们**游戏框架**和**单独游戏**交换消息。
+    - 本项目包含 QtCLI **单独游戏模板**和 QtGUI 的基本 Wordle 单独游戏，位于[这里](src/single_games)。
+  - 中间层，包括[**指令**](src/tools/commands.hpp)和[**游戏状态标记**](src/tools/marks.hpp)，通过他们**游戏框架**和**单独游戏**交换消息。
     - 注意 QtGUI 的中间层则是基于 Qt 事件循环；
-  - **游戏组件**(`src/components`)，将每个功能拆分开来的 Wordle 游戏的必要部分，包括了：
+  - [**游戏组件**](src/components)，将每个功能拆分开来的 Wordle 游戏的必要部分，包括了：
 
     - **Wordle** 存储 wordle 的数据结构。
     - **ComparedWordle** 存储某个 wordle 以及它和答案比较的结果的数据结构。
@@ -119,11 +123,11 @@ make
     - **WordleParser** 解析器，依赖于资源控制器，从字符串中构造 wordle。
     - **ResourceHolder** 资源控制器，通常在初始化阶段从文件中构建 wordle 列表。
     
-    我们对标准的容器和字符串提供了通用的比较器(`src/tools/comparators.hpp`)和生成器(`src/tools/generators.hpp`)。
+    我们对标准的容器和字符串提供了通用的[**比较器**](src/tools/comparators.hpp)和[**生成器**](src/tools/generators.hpp)。
   - **GUI 游戏组件**，同上，但是他仅仅用于 QtGUI 游戏，主要提供了必要的按钮类和简单的动画等等。
 
-将上面的部件组合，就获得了一个游戏，所有可运行游戏都在 `src/examples` 下面。
+将上面的部件组合，就获得了一个游戏，所有可运行游戏都在[例子目录](src/examples)下面。
 
 #### 测试
 
-只有部分测试完成了，并且没有整合到 CTest，所有测试在 `test/` 下。
+只有部分测试完成了，并且没有整合到 CTest，所有测试在[这里](test/)。
