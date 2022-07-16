@@ -1,0 +1,1 @@
+#include "src/single_games/qt_cli_single_wordle/qt_cli_single_wordle_template.hpp"
